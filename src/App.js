@@ -6,6 +6,9 @@ import { useState } from "react";
 import { moviesData } from "./Data";
 import Search from "./Component/Search";
 import AddMovie from "./Component/AddMovie";
+import { BrowserRouter } from "react-router-dom/cjs/react-router-dom.min";
+import { Route, Switch } from "react-router-dom";
+import ViewTrailer from "./Component/ViewTrailer";
 function App() {
   const [movies, setmovies] = useState(moviesData);
   const [text, setText] = useState("");
@@ -19,20 +22,40 @@ function App() {
   const handleRating = (x) => setRating(x);
   return (
     <div className="App">
-      <Search
-        rating={rating}
-        text={text}
-        handleText={handleText}
-        handleRating={handleRating}
-      />
-      <MovieList
-        movies={movies.filter(
-          (el) =>
-            el.name.toLowerCase().includes(text.toLowerCase()) &&
-            el.rating >= rating
-        )}
-      />
-      <AddMovie Add={handleAdd} />
+      <BrowserRouter>
+        <Switch>
+          <Route
+            path="/"
+            exact
+            render={(props) => (
+              <div>
+                <Search
+                  rating={rating}
+                  text={text}
+                  handleText={handleText}
+                  handleRating={handleRating}
+                />
+                <MovieList
+                  movies={movies.filter(
+                    (el) =>
+                      el.name.toLowerCase().includes(text.toLowerCase()) &&
+                      el.rating >= rating
+                  )}
+                />
+              </div>
+            )}
+          />
+          <Route
+            path="/AddMovie"
+            exact
+            render={() => <AddMovie Add={handleAdd} />}
+          />
+          <Route
+            path="/:id"
+            render={(props) => <ViewTrailer movies={movies} {...props} />}
+          />
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 
 import Modal from 'react-modal';
+import { Link } from 'react-router-dom';
 import StarRating from './StarRating';
 
 const customStyles = {
@@ -49,6 +50,7 @@ const AddMovie = ({Add}) => {
 const handleRating=(x)=>setrating(x)
     return (
         <div>
+          <Link to="/">home</Link>
           <button onClick={openModal}>Add Movie</button>
       <Modal
         isOpen={modalIsOpen}
